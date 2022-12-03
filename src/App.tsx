@@ -1,45 +1,72 @@
 import './App.css'
 import { MantineProvider, TextInput, Group, Table } from '@mantine/core'
 import { useState } from 'react'
-import plateRounding from './util/PlateRounding'
+import plateRounding from './util/plateRounding'
+import Week from './components/Week'
+import { Lift, Multipliers } from './interface'
 
-interface Lift {
-  liftName: string
-  weight: number
-  type: string
-}
-
-interface Multipliers {
-  weekNumber: string
-  set1: number
-  set2: number
-  set3: number
-}
+const WORKSET_PERCENTAGE = 0.9
 
 const multipliers: Multipliers[] = [
   {
     weekNumber: '1',
-    set1: 0.65,
-    set2: 0.75,
-    set3: 0.85
+    set1: {
+      percentage: 0.65,
+      reps: '5'
+    },
+    set2: {
+      percentage: 0.75,
+      reps: '5'
+    },
+    set3: {
+      percentage: 0.85,
+      reps: '5'
+    }
   },
   {
     weekNumber: '2',
-    set1: 0.7,
-    set2: 0.8,
-    set3: 0.9
+    set1: {
+      percentage: 0.7,
+      reps: '3'
+    },
+    set2: {
+      percentage: 0.8,
+      reps: '3'
+    },
+    set3: {
+      percentage: 0.9,
+      reps: '3'
+    }
   },
   {
     weekNumber: '3',
-    set1: 0.75,
-    set2: 0.85,
-    set3: 0.95
+    set1: {
+      percentage: 0.75,
+      reps: '5'
+    },
+    set2: {
+      percentage: 0.85,
+      reps: '3'
+    },
+    set3: {
+      percentage: 0.95,
+      reps: '1'
+    }
   },
   {
     weekNumber: '4',
-    set1: 0.4,
-    set2: 0.5,
-    set3: 0.6
+    set1: {
+      percentage: 0.4,
+      reps: '5'
+    },
+    set2: {
+      percentage: 0.5,
+      reps: '5'
+    },
+    set3: {
+      percentage: 0.6,
+      reps: '5'
+    }
   }
 ]
 
@@ -69,9 +96,9 @@ function calculateWeight(lift: Lift) {
           return (
             <tr key={`${lift.liftName}-${week.weekNumber}`}>
               <td>Viikko {week.weekNumber}</td>
-              <td>{plateRounding(lift.weight * week.set1)} kg</td>
-              <td>{plateRounding(lift.weight * week.set2)} kg</td>
-              <td>{plateRounding(lift.weight * week.set3)} kg</td>
+              <td>{plateRounding(lift.weight * week.set1.percentage)} kg</td>
+              <td>{plateRounding(lift.weight * week.set2.percentage)} kg</td>
+              <td>{plateRounding(lift.weight * week.set3.percentage)} kg</td>
             </tr>
           )
         })}
@@ -81,30 +108,39 @@ function calculateWeight(lift: Lift) {
 }
 
 function App() {
-  const [zPressWeight, setZPressWeight] = useState(0)
+  const [zPressWeight, setZPressWeight] = useState('0')
+  const [latPulldownWeight, setLatPulldown] = useState('0')
+  const [pseudoPlanchePushupWeight, setPseudoPlanchePushup] = useState('0')
+  const [zercherSquatWeight, setZercherSquat] = useState('0')
 
   const mainLifts: Lift[] = [
     {
       liftName: 'Z-press',
-      weight: zPressWeight,
+      weight: Number(zPressWeight),
+      workSetWeight: Number(zPressWeight) * WORKSET_PERCENTAGE,
       type: 'upper'
     },
     {
       liftName: 'Lat pulldown',
-      weight: 110,
+      weight: Number(latPulldownWeight),
+      workSetWeight: Number(latPulldownWeight) * WORKSET_PERCENTAGE,
       type: 'upper'
     },
     {
       liftName: 'Pseudo planche push up',
-      weight: 40,
+      weight: Number(pseudoPlanchePushupWeight),
+      workSetWeight: Number(pseudoPlanchePushupWeight) * WORKSET_PERCENTAGE,
       type: 'upper'
     },
     {
-      liftName: 'Zombie squat',
-      weight: 120,
+      liftName: 'Zercher squat',
+      weight: Number(zercherSquatWeight),
+      workSetWeight: Number(zercherSquatWeight) * WORKSET_PERCENTAGE,
       type: 'lower'
     }
   ]
+
+  const week1 = multipliers[0]
 
   return (
     <div className='App'>
@@ -116,11 +152,29 @@ function App() {
           <Group>
             <TextInput
               placeholder='90'
-              label='Z-press max'
+              label='Z-press'
               value={zPressWeight}
+              onChange={(event) => setZPressWeight(event.currentTarget.value)}
+            />
+            <TextInput
+              placeholder='90'
+              label='Lat pulldown'
+              value={latPulldownWeight}
+              onChange={(event) => setLatPulldown(event.currentTarget.value)}
+            />
+            <TextInput
+              placeholder='90'
+              label='Pseudo planche push up'
+              value={pseudoPlanchePushupWeight}
               onChange={(event) =>
-                setZPressWeight(Number(event.currentTarget.value))
+                setPseudoPlanchePushup(event.currentTarget.value)
               }
+            />
+            <TextInput
+              placeholder='90'
+              label='Zercher squat'
+              value={zercherSquatWeight}
+              onChange={(event) => setZercherSquat(event.currentTarget.value)}
             />
           </Group>
         </div>
@@ -129,7 +183,9 @@ function App() {
           <p>Z-press {Math.round(Number(zPressWeight) * 0.9).toFixed(2)} kg</p>
         </div>
         <div className='sets'>
-          {mainLifts.map((lift) => calculateWeight(lift))}
+          {multipliers.map((week) => (
+            <Week {...{ mainLifts, week }} />
+          ))}
         </div>
       </div>
     </div>
