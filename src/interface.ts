@@ -1,6 +1,5 @@
 export interface Lift {
   liftName: string
-  weight: number
   workSetWeight: number
   type: string
 }

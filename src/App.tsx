@@ -1,7 +1,12 @@
 import './App.css'
-import { MantineProvider, TextInput, Group, Table } from '@mantine/core'
+import {
+  MantineProvider,
+  TextInput,
+  Group,
+  Button,
+  Container
+} from '@mantine/core'
 import { useState } from 'react'
-import plateRounding from './util/plateRounding'
 import Week from './components/Week'
 import { Lift, Multipliers } from './interface'
 
@@ -70,123 +75,176 @@ const multipliers: Multipliers[] = [
   }
 ]
 
-function calculateWeight(lift: Lift) {
-  return (
-    <Table key={lift.liftName}>
-      <thead>
-        <tr>
-          <th colSpan={4}>{lift.liftName}</th>
-        </tr>
-
-        <tr>
-          <th></th>
-          <th>Sarja 1</th>
-          <th>Sarja 2</th>
-          <th>Sarja 3</th>
-        </tr>
-        <tr>
-          <th>Sarjapaino</th>
-          <th>65 % x 5</th>
-          <th>75 % x 5</th>
-          <th>85 % x 5+</th>
-        </tr>
-      </thead>
-      <tbody>
-        {multipliers.map((week) => {
-          return (
-            <tr key={`${lift.liftName}-${week.weekNumber}`}>
-              <td>Viikko {week.weekNumber}</td>
-              <td>{plateRounding(lift.weight * week.set1.percentage)} kg</td>
-              <td>{plateRounding(lift.weight * week.set2.percentage)} kg</td>
-              <td>{plateRounding(lift.weight * week.set3.percentage)} kg</td>
-            </tr>
-          )
-        })}
-      </tbody>
-    </Table>
-  )
+const maxLifts = {
+  zPress: 80,
+  latPulldown: 110,
+  pppu: 30,
+  zercherSquat: 120
 }
 
 function App() {
-  const [zPressWeight, setZPressWeight] = useState('0')
-  const [latPulldownWeight, setLatPulldown] = useState('0')
-  const [pseudoPlanchePushupWeight, setPseudoPlanchePushup] = useState('0')
-  const [zercherSquatWeight, setZercherSquat] = useState('0')
+  const [zPressWeight, setZPressWeight] = useState(
+    String(maxLifts.zPress * WORKSET_PERCENTAGE)
+  )
+  const [latPulldownWeight, setLatPulldown] = useState(
+    String(maxLifts.latPulldown * WORKSET_PERCENTAGE)
+  )
+  const [pseudoPlanchePushupWeight, setPseudoPlanchePushup] = useState(
+    String(maxLifts.pppu * WORKSET_PERCENTAGE)
+  )
+  const [zercherSquatWeight, setZercherSquat] = useState(
+    String(maxLifts.zercherSquat * WORKSET_PERCENTAGE)
+  )
 
   const mainLifts: Lift[] = [
     {
       liftName: 'Z-press',
-      weight: Number(zPressWeight),
-      workSetWeight: Number(zPressWeight) * WORKSET_PERCENTAGE,
+      workSetWeight: Number(zPressWeight),
       type: 'upper'
     },
     {
       liftName: 'Lat pulldown',
-      weight: Number(latPulldownWeight),
-      workSetWeight: Number(latPulldownWeight) * WORKSET_PERCENTAGE,
+      workSetWeight: Number(latPulldownWeight),
       type: 'upper'
     },
     {
       liftName: 'Pseudo planche push up',
-      weight: Number(pseudoPlanchePushupWeight),
-      workSetWeight: Number(pseudoPlanchePushupWeight) * WORKSET_PERCENTAGE,
+      workSetWeight: Number(pseudoPlanchePushupWeight),
       type: 'upper'
     },
     {
       liftName: 'Zercher squat',
-      weight: Number(zercherSquatWeight),
-      workSetWeight: Number(zercherSquatWeight) * WORKSET_PERCENTAGE,
+      workSetWeight: Number(zercherSquatWeight),
       type: 'lower'
     }
   ]
-
-  const week1 = multipliers[0]
 
   return (
     <div className='App'>
       <div>
         <h1>Juntti 531 calculator</h1>
-
-        <div className='exercise-max'>
-          <h2>Maksimit</h2>
-          <Group>
-            <TextInput
-              placeholder='90'
-              label='Z-press'
-              value={zPressWeight}
-              onChange={(event) => setZPressWeight(event.currentTarget.value)}
-            />
-            <TextInput
-              placeholder='90'
-              label='Lat pulldown'
-              value={latPulldownWeight}
-              onChange={(event) => setLatPulldown(event.currentTarget.value)}
-            />
-            <TextInput
-              placeholder='90'
-              label='Pseudo planche push up'
-              value={pseudoPlanchePushupWeight}
-              onChange={(event) =>
-                setPseudoPlanchePushup(event.currentTarget.value)
-              }
-            />
-            <TextInput
-              placeholder='90'
-              label='Zercher squat'
-              value={zercherSquatWeight}
-              onChange={(event) => setZercherSquat(event.currentTarget.value)}
-            />
-          </Group>
-        </div>
-        <div className='working-max'>
-          <h2>Työmaksimit</h2>
-          <p>Z-press {Math.round(Number(zPressWeight) * 0.9).toFixed(2)} kg</p>
-        </div>
-        <div className='sets'>
-          {multipliers.map((week) => (
-            <Week {...{ mainLifts, week }} />
-          ))}
-        </div>
+        <Container>
+          <div className='working-max'>
+            <h2>Työmaksimit</h2>
+            <Group position={'center'}>
+              <Group align={'end'}>
+                <TextInput
+                  placeholder='90'
+                  label='Z-press'
+                  value={zPressWeight}
+                  onChange={(event) =>
+                    setZPressWeight(event.currentTarget.value)
+                  }
+                />
+                <Button
+                  type='button'
+                  onClick={() => {
+                    setZPressWeight(String(Number(zPressWeight) + 2.5))
+                  }}
+                >
+                  +
+                </Button>
+                <Button
+                  type='button'
+                  onClick={() => {
+                    setZPressWeight(String(Number(zPressWeight) - 2.5))
+                  }}
+                >
+                  -
+                </Button>
+              </Group>
+              <Group align={'end'}>
+                <TextInput
+                  placeholder='90'
+                  label='Lat pulldown'
+                  value={latPulldownWeight}
+                  onChange={(event) =>
+                    setLatPulldown(event.currentTarget.value)
+                  }
+                />
+                <Button
+                  type='button'
+                  onClick={() => {
+                    setLatPulldown(String(Number(latPulldownWeight) + 2.5))
+                  }}
+                >
+                  +
+                </Button>
+                <Button
+                  type='button'
+                  onClick={() => {
+                    setLatPulldown(String(Number(latPulldownWeight) - 2.5))
+                  }}
+                >
+                  -
+                </Button>
+              </Group>
+              <Group align={'end'}>
+                <TextInput
+                  placeholder='90'
+                  label='Pseudo planche push up'
+                  value={pseudoPlanchePushupWeight}
+                  onChange={(event) =>
+                    setPseudoPlanchePushup(event.currentTarget.value)
+                  }
+                />
+                <Button
+                  type='button'
+                  onClick={() => {
+                    setPseudoPlanchePushup(
+                      String(Number(pseudoPlanchePushupWeight) + 2.5)
+                    )
+                  }}
+                >
+                  +
+                </Button>
+                <Button
+                  type='button'
+                  onClick={() => {
+                    setPseudoPlanchePushup(
+                      String(Number(pseudoPlanchePushupWeight) - 2.5)
+                    )
+                  }}
+                >
+                  -
+                </Button>
+              </Group>
+              <Group align={'end'}>
+                <TextInput
+                  placeholder='90'
+                  label='Zercher squat'
+                  value={zercherSquatWeight}
+                  onChange={(event) =>
+                    setZercherSquat(event.currentTarget.value)
+                  }
+                />
+                <Button
+                  type='button'
+                  onClick={() => {
+                    setZercherSquat(String(Number(zercherSquatWeight) + 5))
+                  }}
+                >
+                  +
+                </Button>
+                <Button
+                  type='button'
+                  onClick={() => {
+                    setZercherSquat(String(Number(zercherSquatWeight) - 5))
+                  }}
+                >
+                  -
+                </Button>
+              </Group>
+            </Group>
+          </div>
+        </Container>
+        <Container>
+          <div className='sets'>
+            {multipliers.map((week) => (
+              <Week {...{ mainLifts, week }} key={week.weekNumber} />
+            ))}
+          </div>
+        </Container>
       </div>
     </div>
   )
