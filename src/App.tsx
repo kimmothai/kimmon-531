@@ -188,10 +188,10 @@ function App() {
   return (
     <div className='App'>
       <div>
-        <Title order={1}>Juntti 531 calculator</Title>
+        <Title order={1}>Kimmon 531 calculator</Title>
         <Container>
           <div className='working-max'>
-            <Title order={2}>Työmaksimit</Title>
+            <Title order={2}>Workset maxes</Title>
             <Group position={'center'}>
               <Group align={'end'}>
                 <TextInput
