@@ -8,7 +8,8 @@ import {
   List,
   Title,
   Text,
-  Card
+  Card,
+  Center
 } from '@mantine/core'
 import { useState } from 'react'
 import Week from './components/Week'
@@ -187,169 +188,178 @@ function App() {
 
   return (
     <div className='App'>
-      <div>
-        <Title order={1}>Kimmon 531 calculator</Title>
-        <Container>
-          <div className='working-max'>
-            <Title order={2}>Workset maxes</Title>
-            <Group position={'center'}>
-              <Group align={'end'}>
-                <TextInput
-                  placeholder='90'
-                  label={`Z-press (${maxLifts.zPress} kg)`}
-                  value={zPressWeight}
-                  onChange={(event) =>
-                    setZPressWeight(event.currentTarget.value)
-                  }
-                />
-                <Button
-                  type='button'
-                  onClick={() => {
-                    setZPressWeight(String(Number(zPressWeight) - 2.5))
-                  }}
-                >
-                  -
-                </Button>
-                <Button
-                  type='button'
-                  onClick={() => {
-                    setZPressWeight(String(Number(zPressWeight) + 2.5))
-                  }}
-                >
-                  +
-                </Button>
-              </Group>
-              <Group align={'end'}>
-                <TextInput
-                  placeholder='90'
-                  label={`Lat pulldown (${maxLifts.latPulldown} kg)`}
-                  value={latPulldownWeight}
-                  onChange={(event) =>
-                    setLatPulldown(event.currentTarget.value)
-                  }
-                />
-                <Button
-                  type='button'
-                  onClick={() => {
-                    setLatPulldown(String(Number(latPulldownWeight) - 2.5))
-                  }}
-                >
-                  -
-                </Button>
-                <Button
-                  type='button'
-                  onClick={() => {
-                    setLatPulldown(String(Number(latPulldownWeight) + 2.5))
-                  }}
-                >
-                  +
-                </Button>
-              </Group>
-              <Group align={'end'}>
-                <TextInput
-                  placeholder='90'
-                  label={`PPPU (${maxLifts.pppu} kg)`}
-                  value={pseudoPlanchePushupWeight}
-                  onChange={(event) =>
-                    setPseudoPlanchePushup(event.currentTarget.value)
-                  }
-                />
+      <Center>
+        <div>
+          <Title order={1}>Kimmon 531 calculator</Title>
+          <Container>
+            <div className='working-max'>
+              <Title order={2}>Workset maxes</Title>
+              <Group position={'center'}>
+                <Group align={'end'}>
+                  <TextInput
+                    placeholder='90'
+                    label={`Z-press (${maxLifts.zPress} kg)`}
+                    value={zPressWeight}
+                    onChange={(event) =>
+                      setZPressWeight(event.currentTarget.value)
+                    }
+                  />
+                  <Button
+                    type='button'
+                    onClick={() => {
+                      setZPressWeight(String(Number(zPressWeight) - 2.5))
+                    }}
+                  >
+                    -
+                  </Button>
+                  <Button
+                    type='button'
+                    onClick={() => {
+                      setZPressWeight(String(Number(zPressWeight) + 2.5))
+                    }}
+                  >
+                    +
+                  </Button>
+                </Group>
+                <Group align={'end'}>
+                  <TextInput
+                    placeholder='90'
+                    label={`Lat pulldown (${maxLifts.latPulldown} kg)`}
+                    value={latPulldownWeight}
+                    onChange={(event) =>
+                      setLatPulldown(event.currentTarget.value)
+                    }
+                  />
+                  <Button
+                    type='button'
+                    onClick={() => {
+                      setLatPulldown(String(Number(latPulldownWeight) - 2.5))
+                    }}
+                  >
+                    -
+                  </Button>
+                  <Button
+                    type='button'
+                    onClick={() => {
+                      setLatPulldown(String(Number(latPulldownWeight) + 2.5))
+                    }}
+                  >
+                    +
+                  </Button>
+                </Group>
+                <Group align={'end'}>
+                  <TextInput
+                    placeholder='90'
+                    label={`PPPU (${maxLifts.pppu} kg)`}
+                    value={pseudoPlanchePushupWeight}
+                    onChange={(event) =>
+                      setPseudoPlanchePushup(event.currentTarget.value)
+                    }
+                  />
 
-                <Button
-                  type='button'
-                  onClick={() => {
-                    setPseudoPlanchePushup(
-                      String(Number(pseudoPlanchePushupWeight) - 2.5)
-                    )
-                  }}
-                >
-                  -
-                </Button>
-                <Button
-                  type='button'
-                  onClick={() => {
-                    setPseudoPlanchePushup(
-                      String(Number(pseudoPlanchePushupWeight) + 2.5)
-                    )
-                  }}
-                >
-                  +
-                </Button>
-              </Group>
-              <Group align={'end'}>
-                <TextInput
-                  placeholder='90'
-                  label={`Zercher-kyykky (${maxLifts.zercherSquat} kg)`}
-                  value={zercherSquatWeight}
-                  onChange={(event) =>
-                    setZercherSquat(event.currentTarget.value)
-                  }
-                />
+                  <Button
+                    type='button'
+                    onClick={() => {
+                      setPseudoPlanchePushup(
+                        String(Number(pseudoPlanchePushupWeight) - 2.5)
+                      )
+                    }}
+                  >
+                    -
+                  </Button>
+                  <Button
+                    type='button'
+                    onClick={() => {
+                      setPseudoPlanchePushup(
+                        String(Number(pseudoPlanchePushupWeight) + 2.5)
+                      )
+                    }}
+                  >
+                    +
+                  </Button>
+                </Group>
+                <Group align={'end'}>
+                  <TextInput
+                    placeholder='90'
+                    label={`Zercher-kyykky (${maxLifts.zercherSquat} kg)`}
+                    value={zercherSquatWeight}
+                    onChange={(event) =>
+                      setZercherSquat(event.currentTarget.value)
+                    }
+                  />
 
-                <Button
-                  type='button'
-                  onClick={() => {
-                    setZercherSquat(String(Number(zercherSquatWeight) - 5))
-                  }}
-                >
-                  -
-                </Button>
-                <Button
-                  type='button'
-                  onClick={() => {
-                    setZercherSquat(String(Number(zercherSquatWeight) + 5))
-                  }}
-                >
-                  +
-                </Button>
+                  <Button
+                    type='button'
+                    onClick={() => {
+                      setZercherSquat(String(Number(zercherSquatWeight) - 5))
+                    }}
+                  >
+                    -
+                  </Button>
+                  <Button
+                    type='button'
+                    onClick={() => {
+                      setZercherSquat(String(Number(zercherSquatWeight) + 5))
+                    }}
+                  >
+                    +
+                  </Button>
+                </Group>
               </Group>
-            </Group>
-          </div>
-        </Container>
-        <Space h='md' />
-        <Container>
-          <div className='sets'>
-            {multipliers.map((week) => (
-              <Week {...{ mainLifts, week }} key={week.weekNumber} />
-            ))}
-          </div>
-        </Container>
-        <Space h='md' />
-        <Container>
-          <div className='assistance-lifts'>
-            <Title order={2}>Apuliikkeet</Title>
-            <List>
-              {assistanceLifts.map((lift) => (
-                <List.Item key={lift}>{lift}</List.Item>
-              ))}
-            </List>
-          </div>
-        </Container>
-        <Space h='md' />
-        <Container>
-          <Title order={2}>Conditioning</Title>
-          <Text>
-            Alternate jump rope & burpees with strength movements for 20 - 30
-            min. Cool down with elliptical for 10 min.
-          </Text>
+            </div>
+          </Container>
           <Space h='md' />
-          <Title order={3}>Moves</Title>
-          <Group>
-            {metcon.map(item => {
-              return (
-                <Card shadow="sm" p="lg" radius="md" withBorder key={item.category}>
+          <Container>
+            <div className='sets'>
+              {multipliers.map((week) => (
+                <Week {...{ mainLifts, week }} key={week.weekNumber} />
+              ))}
+            </div>
+          </Container>
+          <Space h='md' />
+          <Container>
+            <div className='assistance-lifts'>
+              <Title order={2}>Apuliikkeet</Title>
+              <List>
+                {assistanceLifts.map((lift) => (
+                  <List.Item key={lift}>{lift}</List.Item>
+                ))}
+              </List>
+            </div>
+          </Container>
+          <Space h='md' />
+          <Container>
+            <Title order={2}>Conditioning</Title>
+            <Text>
+              Alternate jump rope & burpees with strength movements for 20 - 30
+              min. Cool down with elliptical for 10 min.
+            </Text>
+            <Space h='md' />
+            <Title order={3}>Moves</Title>
+            <Group>
+              {metcon.map((item) => {
+                return (
+                  <Card
+                    shadow='sm'
+                    p='lg'
+                    radius='md'
+                    withBorder
+                    key={item.category}
+                  >
                     <Text>{item.category}</Text>
 
                     <List>
-                      {item.moves.map(move => <List.Item key={move}>{move}</List.Item>)}
+                      {item.moves.map((move) => (
+                        <List.Item key={move}>{move}</List.Item>
+                      ))}
                     </List>
-                </Card>
+                  </Card>
                 )
-              })
-            }
-          </Group>
-        </Container>
-      </div>
+              })}
+            </Group>
+          </Container>
+        </div>
+      </Center>
     </div>
   )
 }
