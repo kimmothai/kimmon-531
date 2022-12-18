@@ -4,6 +4,11 @@ export interface Lift {
   type: string
 }
 
+export interface Assistance {
+  workoutType: string
+  movements: Array<String>
+}
+
 export interface RepSchema {
   percentage: number
   reps: string

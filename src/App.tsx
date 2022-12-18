@@ -1,14 +1,18 @@
 import './App.css'
 import {
-  MantineProvider,
   TextInput,
   Group,
   Button,
-  Container
+  Container,
+  Space,
+  List,
+  Title,
+  Text,
+  Card
 } from '@mantine/core'
 import { useState } from 'react'
 import Week from './components/Week'
-import { Lift, Multipliers } from './interface'
+import { Lift, Multipliers, Assistance } from './interface'
 
 const WORKSET_PERCENTAGE = 0.9
 
@@ -82,6 +86,68 @@ const maxLifts = {
   zercherSquat: 120
 }
 
+const assistanceMoves: Array<Assistance> = [
+  {
+    workoutType: 'A',
+    movements: [
+      'Bridge',
+      '4 position lift',
+      'Split squat',
+      'Reverse Nordic Curl',
+      'Syväkyykkypito',
+      'Vatsarutistus',
+      'Kompressio'
+    ]
+  },
+  {
+    workoutType: 'B',
+    movements: [
+      'Reverse bridge',
+      'Weighted pancake good morning',
+      'Weighted side pancake lift',
+      'Lantionnosto',
+      'Hamstring curl',
+      'Jefferson curl'
+    ]
+  }
+]
+
+const assistanceLifts = [
+  'Weighted pancake good morning',
+  'Inverted row',
+  'Straight-arm pull down'
+]
+
+interface Metcon {
+  category: string
+  moves: string[]
+}
+const metcon: Metcon[] = [
+  {
+    category: 'Upper body',
+    moves: ['Pike push-up', 'PPPU', 'Hip thrust', 'KB halo', 'Neck curl']
+  },
+  {
+    category: 'Core',
+    moves: [
+      'Leg raise',
+      'Back bridge',
+      'Reverse bridge',
+      'Half-kneeling windmill',
+      'Compression'
+    ]
+  },
+  {
+    category: 'Lower body',
+    moves: [
+      'Hamstring curl',
+      'ATG Split squat',
+      'Reverse Nordic curl',
+      'Jefferson curl'
+    ]
+  }
+]
+
 function App() {
   const [zPressWeight, setZPressWeight] = useState(
     String(maxLifts.zPress * WORKSET_PERCENTAGE)
@@ -122,15 +188,15 @@ function App() {
   return (
     <div className='App'>
       <div>
-        <h1>Juntti 531 calculator</h1>
+        <Title order={1}>Juntti 531 calculator</Title>
         <Container>
           <div className='working-max'>
-            <h2>Työmaksimit</h2>
+            <Title order={2}>Työmaksimit</Title>
             <Group position={'center'}>
               <Group align={'end'}>
                 <TextInput
                   placeholder='90'
-                  label='Z-press'
+                  label={`Z-press (${maxLifts.zPress} kg)`}
                   value={zPressWeight}
                   onChange={(event) =>
                     setZPressWeight(event.currentTarget.value)
@@ -139,24 +205,24 @@ function App() {
                 <Button
                   type='button'
                   onClick={() => {
-                    setZPressWeight(String(Number(zPressWeight) + 2.5))
-                  }}
-                >
-                  +
-                </Button>
-                <Button
-                  type='button'
-                  onClick={() => {
                     setZPressWeight(String(Number(zPressWeight) - 2.5))
                   }}
                 >
                   -
                 </Button>
+                <Button
+                  type='button'
+                  onClick={() => {
+                    setZPressWeight(String(Number(zPressWeight) + 2.5))
+                  }}
+                >
+                  +
+                </Button>
               </Group>
               <Group align={'end'}>
                 <TextInput
                   placeholder='90'
-                  label='Lat pulldown'
+                  label={`Lat pulldown (${maxLifts.latPulldown} kg)`}
                   value={latPulldownWeight}
                   onChange={(event) =>
                     setLatPulldown(event.currentTarget.value)
@@ -165,39 +231,30 @@ function App() {
                 <Button
                   type='button'
                   onClick={() => {
-                    setLatPulldown(String(Number(latPulldownWeight) + 2.5))
-                  }}
-                >
-                  +
-                </Button>
-                <Button
-                  type='button'
-                  onClick={() => {
                     setLatPulldown(String(Number(latPulldownWeight) - 2.5))
                   }}
                 >
                   -
                 </Button>
+                <Button
+                  type='button'
+                  onClick={() => {
+                    setLatPulldown(String(Number(latPulldownWeight) + 2.5))
+                  }}
+                >
+                  +
+                </Button>
               </Group>
               <Group align={'end'}>
                 <TextInput
                   placeholder='90'
-                  label='Pseudo planche push up'
+                  label={`PPPU (${maxLifts.pppu} kg)`}
                   value={pseudoPlanchePushupWeight}
                   onChange={(event) =>
                     setPseudoPlanchePushup(event.currentTarget.value)
                   }
                 />
-                <Button
-                  type='button'
-                  onClick={() => {
-                    setPseudoPlanchePushup(
-                      String(Number(pseudoPlanchePushupWeight) + 2.5)
-                    )
-                  }}
-                >
-                  +
-                </Button>
+
                 <Button
                   type='button'
                   onClick={() => {
@@ -208,24 +265,27 @@ function App() {
                 >
                   -
                 </Button>
+                <Button
+                  type='button'
+                  onClick={() => {
+                    setPseudoPlanchePushup(
+                      String(Number(pseudoPlanchePushupWeight) + 2.5)
+                    )
+                  }}
+                >
+                  +
+                </Button>
               </Group>
               <Group align={'end'}>
                 <TextInput
                   placeholder='90'
-                  label='Zercher squat'
+                  label={`Zercher-kyykky (${maxLifts.zercherSquat} kg)`}
                   value={zercherSquatWeight}
                   onChange={(event) =>
                     setZercherSquat(event.currentTarget.value)
                   }
                 />
-                <Button
-                  type='button'
-                  onClick={() => {
-                    setZercherSquat(String(Number(zercherSquatWeight) + 5))
-                  }}
-                >
-                  +
-                </Button>
+
                 <Button
                   type='button'
                   onClick={() => {
@@ -234,16 +294,60 @@ function App() {
                 >
                   -
                 </Button>
+                <Button
+                  type='button'
+                  onClick={() => {
+                    setZercherSquat(String(Number(zercherSquatWeight) + 5))
+                  }}
+                >
+                  +
+                </Button>
               </Group>
             </Group>
           </div>
         </Container>
+        <Space h='md' />
         <Container>
           <div className='sets'>
             {multipliers.map((week) => (
               <Week {...{ mainLifts, week }} key={week.weekNumber} />
             ))}
           </div>
+        </Container>
+        <Space h='md' />
+        <Container>
+          <div className='assistance-lifts'>
+            <Title order={2}>Apuliikkeet</Title>
+            <List>
+              {assistanceLifts.map((lift) => (
+                <List.Item key={lift}>{lift}</List.Item>
+              ))}
+            </List>
+          </div>
+        </Container>
+        <Space h='md' />
+        <Container>
+          <Title order={2}>Conditioning</Title>
+          <Text>
+            Alternate jump rope & burpees with strength movements for 20 - 30
+            min. Cool down with elliptical for 10 min.
+          </Text>
+          <Space h='md' />
+          <Title order={3}>Moves</Title>
+          <Group>
+            {metcon.map(item => {
+              return (
+                <Card shadow="sm" p="lg" radius="md" withBorder key={item.category}>
+                    <Text>{item.category}</Text>
+
+                    <List>
+                      {item.moves.map(move => <List.Item key={move}>{move}</List.Item>)}
+                    </List>
+                </Card>
+                )
+              })
+            }
+          </Group>
         </Container>
       </div>
     </div>
