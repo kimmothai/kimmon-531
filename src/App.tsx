@@ -114,9 +114,14 @@ const assistanceMoves: Array<Assistance> = [
 ]
 
 const assistanceLifts = [
-  'Weighted pancake good morning',
   'Inverted row',
-  'Straight-arm pull down'
+  'Straight-arm pull down',
+  'Weighted pancake good morning',
+  'Oblique raise',
+  'Sumo squat',
+  'Hamstring curl',
+  'Jefferson curl',
+  'Split squat'
 ]
 
 interface Metcon {
@@ -135,7 +140,8 @@ const metcon: Metcon[] = [
       'Back bridge',
       'Reverse bridge',
       'Half-kneeling windmill',
-      'Compression'
+      'Compression',
+      'Bicycle crunch'
     ]
   },
   {
@@ -148,6 +154,17 @@ const metcon: Metcon[] = [
     ]
   }
 ]
+
+const conditioning: Metcon = {
+  category: 'Generalist',
+  moves: [
+    'KB Clean & jerk',
+    'KB Inside swing',
+    'Shin box',
+    'Rock-it',
+    'Jack-knife'
+  ]
+}
 
 function App() {
   const [zPressWeight, setZPressWeight] = useState(
@@ -319,7 +336,7 @@ function App() {
           <Space h='md' />
           <Container>
             <div className='assistance-lifts'>
-              <Title order={2}>Apuliikkeet</Title>
+              <Title order={2}>Assistance moves</Title>
               <List>
                 {assistanceLifts.map((lift) => (
                   <List.Item key={lift}>{lift}</List.Item>
@@ -331,12 +348,17 @@ function App() {
           <Container>
             <Title order={2}>Conditioning</Title>
             <Text>
-              Alternate jump rope & burpees with strength movements for 20 - 30
-              min. Cool down with elliptical for 10 min.
+              Alternate 1 min jump rope (and/or burpees) with strength movements
+              for 20 - 30 min. Cool down with elliptical for 10 - 15 min.
             </Text>
             <Space h='md' />
             <Title order={3}>Moves</Title>
-            <Group>
+            <List>
+              {conditioning.moves.map((element) => {
+                return <List.Item key={element}>{element}</List.Item>
+              })}
+            </List>
+            {/* <Group>
               {metcon.map((item) => {
                 return (
                   <Card
@@ -356,7 +378,7 @@ function App() {
                   </Card>
                 )
               })}
-            </Group>
+            </Group> */}
           </Container>
         </div>
       </Center>
